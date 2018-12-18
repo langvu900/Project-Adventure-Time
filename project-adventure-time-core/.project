@@ -14,4 +14,11 @@
 	<natures>
 		<nature>org.eclipse.jdt.core.javanature</nature>
 	</natures>
+	<linkedResources>
+		<link>
+			<name>LibGDX</name>
+			<type>2</type>
+			<location>/Users/Wisp/Documents/GitHub/Project-Adventure-Time/LibGDX</location>
+		</link>
+	</linkedResources>
 </projectDescription>
