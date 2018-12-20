@@ -6,9 +6,15 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
-public class AdTimeGame extends ApplicationAdapter {
+import screens.TitelScreen;
+import screens.SplashScreen;
+
+public class AdTimeGameDefault extends ApplicationAdapter {
 	SpriteBatch batch;
 	Texture img;
+	
+	SplashScreen splash;
+	TitelScreen menu;
 	
 	@Override
 	public void create () {
