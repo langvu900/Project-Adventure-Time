@@ -15,7 +15,7 @@ public class AdTimeGame extends ApplicationAdapter {
 	public void create () {
 		
 		batch = new SpriteBatch();
-		img = new Texture("badlogic.jpg");
+		img = new Texture("AT_Main_Menu.png");
 	}
 
 	@Override

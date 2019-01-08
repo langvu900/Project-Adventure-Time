@@ -1,5 +1,6 @@
 package com.umu_jep.atime.desktop;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.backends.lwjgl.LwjglApplication;
 import com.badlogic.gdx.backends.lwjgl.LwjglApplicationConfiguration;
 import com.umu_jep.atime.AdTimeGame;
@@ -11,8 +12,7 @@ public class DesktopLauncher {
 		LwjglApplicationConfiguration config = new LwjglApplicationConfiguration();
 		
 		config.title = "Adventure Time!";
-		config.width = 800;
-		config.height = 600;
+		Gdx.graphics.setWindowedMode(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
 		
 		new LwjglApplication(new AdTimeGame(), config);
 	}
