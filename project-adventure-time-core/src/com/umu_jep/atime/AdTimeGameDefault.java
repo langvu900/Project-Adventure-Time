@@ -1,4 +1,3 @@
-main-menu-screen
 package com.umu_jep.atime;
 
 import com.badlogic.gdx.ApplicationAdapter;
@@ -7,21 +6,24 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
-public class AdTimeGame extends ApplicationAdapter {
-	
+import screens.TitelScreen;
+import screens.SplashScreen;
+
+public class AdTimeGameDefault extends ApplicationAdapter {
 	SpriteBatch batch;
 	Texture img;
 	
+	SplashScreen splash;
+	TitelScreen menu;
+	
 	@Override
 	public void create () {
-		
 		batch = new SpriteBatch();
-		img = new Texture("AT_Main_Menu.png");
+		img = new Texture("badlogic.jpg");
 	}
 
 	@Override
 	public void render () {
-		
 		Gdx.gl.glClearColor(1, 0, 0, 1);
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 		batch.begin();
@@ -31,32 +33,7 @@ public class AdTimeGame extends ApplicationAdapter {
 	
 	@Override
 	public void dispose () {
-		
 		batch.dispose();
 		img.dispose();
 	}
 }
-
-/*
-package com.umu_jep.atime;
-
-import com.badlogic.gdx.Game;
-//import com.badlogic.gdx.Screen;
-
-import screens.SplashScreen;
-import screens.TitelScreen;
-
-public class AdTimeGame extends Game {
-	
-	public TitelScreen titel;
-	public SplashScreen splash;
-	//private Screen test;
-
-	@Override
-	public void create() {
-		
-		titel = new TitelScreen(this);
-		
-	}
-}
-*/
