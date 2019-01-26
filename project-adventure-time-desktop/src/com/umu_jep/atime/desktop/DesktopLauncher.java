@@ -12,7 +12,6 @@ public class DesktopLauncher {
 	public static void main (String[] arg) {
 		
 		LwjglApplicationConfiguration config = new LwjglApplicationConfiguration();
-    main-menu-screen
 		
 		config.title = "Adventure Time!";
 		
