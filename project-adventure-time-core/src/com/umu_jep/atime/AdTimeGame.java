@@ -15,7 +15,4 @@ public class AdTimeGame extends Game {
 		setScreen(new SplashScreen(this));
 		
 	}
-	
-	
-
 }
