@@ -11,6 +11,7 @@ public class DesktopLauncher {
 		config.title = "JEP's Adventure Time";
 		config.width = 1280;
 		config.height = 720;
+		config.resizable = false;
 		new LwjglApplication(new AdTimeGame(), config);
 	}
 }
