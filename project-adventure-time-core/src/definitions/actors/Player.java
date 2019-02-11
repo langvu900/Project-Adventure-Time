@@ -8,18 +8,19 @@ import com.badlogic.gdx.scenes.scene2d.Actor;
 public class Player extends Actor{
 	
 	private String direction = "SOUTH";
-	private float actorX = 0, actorY = 0; 
 	private Texture sprite;
 	
-	public Player(String name, Texture sprite) {
+	public Player(String name, Texture sprite, float x, float y) {
 		this.setName(name);
+		this.setX(x);
+		this.setY(y);
 		this.sprite = sprite;
 		
 	}
 	
 	@Override
-	public void draw(Batch batch, float alpha) {
-		batch.draw(sprite, actorX, actorY);
+	public void draw(Batch batch, float parentAlpha) {
+		batch.draw(sprite, this.getX(), this.getY());
 	}
 
 }
