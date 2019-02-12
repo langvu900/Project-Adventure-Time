@@ -12,15 +12,12 @@ public class DesktopLauncher {
 	public static void main (String[] arg) {
 		
 		LwjglApplicationConfiguration config = new LwjglApplicationConfiguration();
-		
-		config.title = "Adventure Time!";
-		
-		Toolkit tk = Toolkit.getDefaultToolkit();
-		Dimension dim = tk.getScreenSize();
-		
-		config.width = (int) dim.getWidth();
-		config.height = (int) dim.getHeight();
-		
+
+		config.title = "JEP's Adventure Time";
+		config.width = 1280;
+		config.height = 720;
+		config.resizable = false;
+
 		new LwjglApplication(new AdTimeGame(), config);
 	}
 }

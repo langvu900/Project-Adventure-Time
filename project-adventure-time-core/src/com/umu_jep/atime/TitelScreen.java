@@ -13,9 +13,11 @@ import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector3;
-import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
+import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.utils.viewport.ExtendViewport;
 
-import asset.Assets;
+import definitions.Assets;
+import definitions.screen_utils.TitleButton;
 
 public class TitelScreen implements Screen {
 	
@@ -23,36 +25,40 @@ public class TitelScreen implements Screen {
 	private OrthographicCamera camera;
 	private SpriteBatch batch;
 	private AssetManager manager;
-	private Vector3 touch;
+	//private Vector3 touch;
+	private ExtendViewport viewport;
 	
-	private Rectangle startButton, optionButton, exitButton, creditButton;
+	//private Rectangle startButton, optionButton, exitButton, creditButton;
 	
 	private Texture testGIF;
-	private BitmapFont font;
+	//private BitmapFont font;
 	private Texture startTexture;
-	//private TextButton button;
-
+	private Stage checkInput;
+	
 	public TitelScreen(AdTimeGame game) {
 		this.game = game;
 		
 		//In-window coordinates
 		camera = new OrthographicCamera();
 		camera.setToOrtho(false, 1280, 720);		//in.window resolution
+		viewport = new ExtendViewport(1280, 720, camera);
 		
 		//Declarations
 		batch = new SpriteBatch();
 		manager = new AssetManager();
-		touch = new Vector3();
-		font = new BitmapFont();
-		//button = new TextButton(null, null);
+		//touch = new Vector3();
+		//font = new BitmapFont();
+		checkInput = new Stage(viewport, batch);
 	}
 
 	@Override
 	public void show() {
 		loadAssets();
 		
-		startButton = new Rectangle(640, 360, 60, 40);
+		//startButton = new Rectangle(640, 360, 60, 40);
 
+		Gdx.input.setInputProcessor(checkInput);
+		checkInput.addActor(new TitleButton("start", 1280/2, 720/2, startTexture, game, this));
 	}
 
 	@Override
@@ -66,11 +72,12 @@ public class TitelScreen implements Screen {
 				
 		batch.begin();
 		batch.draw(testGIF, 0, 0);
-		font.draw(batch, "Start", 1280/2, 720/2);
-		batch.draw(startTexture, startButton.x, startButton.y);
+		//font.draw(batch, "Start", 1280/2, 720/2);
+		//batch.draw(startTexture, startButton.x, startButton.y);
 		batch.end();
-		
-		checkInput();
+		checkInput.draw();
+		checkInput.act();
+		//checkInput();
 		
 	}
 
@@ -103,7 +110,8 @@ public class TitelScreen implements Screen {
 		// TODO Auto-generated method stub
 		batch.dispose();
 		manager.dispose();
-		font.dispose();
+		//font.dispose();
+		checkInput.dispose();
 	}
 
 	/**
@@ -123,16 +131,16 @@ public class TitelScreen implements Screen {
 	}
 	
 	/**Check button clicked*/
-	private void checkInput() {
+	/*private void checkInput() {
 		if(Gdx.input.isTouched()) {
 			touch.set(Gdx.input.getX(), Gdx.input.getY(), 0);
 			camera.unproject(touch);
 			if(startButton.x <= touch.x && startButton.y <= touch.y 
-					&& touch.x <= startButton.x+startButton.getWidth() && touch.y <= startButton.getY()+startButton.getHeight()) {
+					&& touch.x <= startButton.x+startButton.width && touch.y <= startButton.y+startButton.height) {
 				game.setScreen(new GameScreen(game));
 				dispose();
 			}
-			/*
+			
 			if(optionButton.x <= touch.x && optionButton.y <= touch.y 
 					&& touch.x <= optionButton.x+optionButton.getWidth() && touch.y <= optionButton.getY()+optionButton.getHeight()) {
 				//game.setScreen(new TitleOptionScreen(game));
@@ -147,8 +155,8 @@ public class TitelScreen implements Screen {
 					&& touch.x <= exitButton.x+exitButton.getWidth() && touch.y <= exitButton.getY()+exitButton.getHeight()) {
 				Gdx.app.exit();
 				dispose();
-			}*/
+			}
 		}
-	}
+	}*/
 
 }

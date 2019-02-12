@@ -9,10 +9,7 @@ public class AdTimeGame extends Game {
 	
 	@Override
 	public void create() {
-		
 		//sAssets.load();
-
-		setScreen(new SplashScreen(this));
-		
+		setScreen(new SplashScreen(this));	
 	}
 }
