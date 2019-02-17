@@ -24,6 +24,8 @@ public class Assets {
 	  public static final AssetDescriptor<Texture> testBackground = new AssetDescriptor<Texture>("background/test1.jpg", Texture.class);
 	  
 	  public static final AssetDescriptor<Texture> playerSprite = new AssetDescriptor<Texture>("SpriteJEP.png", Texture.class);
+	  
+	  /** Maps */
 	  public static final AssetDescriptor<TiledMap> testMap = new AssetDescriptor<TiledMap>("maps/TutorialMap.tmx", TiledMap.class);
 
 	
