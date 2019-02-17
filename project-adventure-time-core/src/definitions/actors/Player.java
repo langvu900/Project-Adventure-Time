@@ -10,11 +10,10 @@ public class Player extends Actor{
 	private String direction = "SOUTH";
 	private Texture sprite;
 	
-	public Player(String name, Texture sprite, float x, float y) {
+	public Player(String name, Texture sprite) {
 		this.setName(name);
-		this.setX(x);
-		this.setY(y);
 		this.sprite = sprite;
+		this.setBounds(this.getX(), this.getY(), sprite.getWidth(), sprite.getHeight());
 		
 	}
 	
@@ -22,5 +21,5 @@ public class Player extends Actor{
 	public void draw(Batch batch, float parentAlpha) {
 		batch.draw(sprite, this.getX(), this.getY());
 	}
-
+	
 }
