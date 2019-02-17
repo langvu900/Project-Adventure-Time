@@ -6,12 +6,19 @@ package com.umu_jep.atime;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.assets.AssetDescriptor;
 import com.badlogic.gdx.assets.AssetManager;
+import com.badlogic.gdx.assets.loaders.resolvers.InternalFileHandleResolver;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.maps.MapLayer;
+import com.badlogic.gdx.maps.tiled.TiledMap;
+import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
+import com.badlogic.gdx.maps.tiled.TmxMapLoader;
+import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.viewport.ExtendViewport;
@@ -19,6 +26,7 @@ import com.badlogic.gdx.utils.viewport.Viewport;
 
 import definitions.Assets;
 import definitions.actors.Player;
+import definitions.actors.testMap;
 import definitions.screen_utils.GameMenuButtons;
 import definitions.screen_utils.UITest;
 
@@ -42,6 +50,10 @@ public class GameScreen implements Screen {
 	
 	private float SPEED = 2;
 	
+	TiledMap map;
+	OrthogonalTiledMapRenderer mapRenderer;
+	TiledMapTileLayer mapGroundLayer;
+	
 	public GameScreen(AdTimeGame game) {
 		this.game = game;
 		batch = new SpriteBatch();
@@ -57,20 +69,24 @@ public class GameScreen implements Screen {
 
 	}
 	
+	
+	
 	@Override
 	public void show() {
 		loadAssets();
+		loadMap(Assets.testMap);
 		gameIsPaused = false;
 		menuScreenCalled = false;
 		dialogScreenCalled = false;
 		viewport.apply();
-		camera.setToOrtho(false, 16*16, 9*16);
+		camera.setToOrtho(false, 16*32, 9*32);
 		
 		Gdx.input.setInputProcessor(menuStage);
 		//gameStage.addActor(player);
 		uiStage.addActor(new UITest(camera));		//TODO parameter texture
 		menuStage.addActor(new GameMenuButtons("resume", camera, manager.get(Assets.startTexture), game, this));
-		backSprite.setBounds(0, 0, manager.get(Assets.testBackground).getWidth(), manager.get(Assets.testBackground).getHeight());
+		//backSprite.setBounds(0, 0, manager.get(Assets.testBackground).getWidth(), manager.get(Assets.testBackground).getHeight());
+		
 	}
 
 	@Override
@@ -83,10 +99,11 @@ public class GameScreen implements Screen {
 			
 			//batch.setProjectionMatrix(camera.combined);		//Test
 			
+			mapRenderer.render();
 			gameStage.draw();
 			//TODO Delete this
 			batch.begin();
-			backSprite.draw(batch);
+			//backSprite.draw(batch);
 			batch.end();
 			
 			checkMovement();
@@ -143,12 +160,23 @@ public class GameScreen implements Screen {
 		//manager.load(Assets.playerSprite);
 		manager.load(Assets.testGif);			//Test
 		manager.load(Assets.startTexture);
-		manager.load(Assets.testBackground);
+					//
+					//
 		manager.finishLoading();;
 		
 		test = manager.get(Assets.testGif);		//test
-		backSprite = new Sprite(manager.get(Assets.testBackground));
-
+					///backSprite = new Sprite(manager.get(Assets.testBackground));
+	}
+	
+	public void loadMap(AssetDescriptor<TiledMap> mapName) {
+		manager.setLoader(TiledMap.class, new TmxMapLoader(new InternalFileHandleResolver()));
+		manager.load(mapName);
+		manager.finishLoading();
+		
+		map = manager.get(mapName);
+		mapRenderer = new OrthogonalTiledMapRenderer(map, 1);
+		mapRenderer.setView(camera);
+		mapGroundLayer = (TiledMapTileLayer) map.getLayers().get(0);
 	}
 	
 	/** ESC button, in-game menu */
@@ -179,16 +207,23 @@ public class GameScreen implements Screen {
 	}
 	
 	private void checkMovement() {
-		if(Gdx.input.isKeyPressed(Input.Keys.D) && backSprite.getWidth() >= camera.position.x + camera.viewportWidth/2 + 1) {
+		
+		//Move the char
+		//if(Gdx.input.isKeyPressed(Input.Keys.D) && mapGroundLayer.getTileWidth()*mapGroundLayer.getWidth() >= camera.position.x + camera.viewportWidth/2 + 1) {
+		//	camera.translate(1*SPEED,0);
+		//}
+		
+		
+		if(Gdx.input.isKeyPressed(Input.Keys.D) && testMap.mapPixelWidth >= camera.position.x + camera.viewportWidth/2 + 1) {
 			camera.translate(1*SPEED,0);
 		}
-		if(Gdx.input.isKeyPressed(Input.Keys.A) && backSprite.getX() <= camera.position.x - camera.viewportWidth/2 - 1) {
+		if(Gdx.input.isKeyPressed(Input.Keys.A) && testMap.mapPixelWidth <= camera.position.x - camera.viewportWidth/2 - 1) {
 			camera.translate(-1*SPEED,0);
 		}
-		if(Gdx.input.isKeyPressed(Input.Keys.W) && backSprite.getHeight() >= camera.position.y + camera.viewportHeight/2 + 1) {
+		if(Gdx.input.isKeyPressed(Input.Keys.W) && testMap.mapPixelHeight >= camera.position.y + camera.viewportHeight/2 + 1) {
 			camera.translate(0,1*SPEED);
 		}
-		if(Gdx.input.isKeyPressed(Input.Keys.S) && backSprite.getY() <= camera.position.y - camera.viewportHeight/2 - 1) {
+		if(Gdx.input.isKeyPressed(Input.Keys.S) && testMap.mapPixelHeight <= camera.position.y - camera.viewportHeight/2 - 1) {
 			camera.translate(0,-1*SPEED);
 		}
 	}
