@@ -23,6 +23,7 @@ public class SplashScreen implements Screen {
 		//TODO splash animation
 		
 		game.setScreen(new TitelScreen(game));
+		dispose();
 		
 	}
 
