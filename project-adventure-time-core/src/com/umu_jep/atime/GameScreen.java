@@ -14,6 +14,7 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.maps.MapProperties;
 import com.badlogic.gdx.maps.tiled.*;
 /*import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
@@ -51,7 +52,7 @@ public class GameScreen implements Screen {
 	
 	private TiledMap map;
 	private OrthogonalTiledMapRenderer mapRenderer;
-	private TiledMapTileLayer mapGroundLayer;
+	//private TiledMapTileLayer mapGroundLayer;
 	
 	public GameScreen(AdTimeGame game) {
 		this.game = game;
@@ -177,7 +178,7 @@ public class GameScreen implements Screen {
 		
 		map = manager.get(mapName);
 		mapRenderer = new OrthogonalTiledMapRenderer(map, 1);
-		mapGroundLayer = (TiledMapTileLayer) map.getLayers().get(0);
+		//mapGroundLayer = (TiledMapTileLayer) map.getLayers().get(0);
 	}
 	
 	/** ESC button, in-game menu */
@@ -208,8 +209,9 @@ public class GameScreen implements Screen {
 	}
 	
 	private void checkMovement() {
-		float mapWidth = mapGroundLayer.getWidth()*mapGroundLayer.getTileWidth();
-		float mapHeight = mapGroundLayer.getHeight()*mapGroundLayer.getTileHeight();
+		MapProperties prop = map.getProperties();
+		float mapWidth = prop.get("width", Integer.class) * prop.get("tilewidth", Integer.class);
+		float mapHeight = prop.get("height", Integer.class) * prop.get("tileheight", Integer.class);
 		
 		if(Gdx.input.isKeyPressed(Input.Keys.D)) {
 			if(player.getRight() <= mapWidth) {
