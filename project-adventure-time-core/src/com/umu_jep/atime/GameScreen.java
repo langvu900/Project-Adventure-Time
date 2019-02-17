@@ -26,6 +26,7 @@ import com.badlogic.gdx.utils.viewport.Viewport;
 
 import definitions.Assets;
 import definitions.actors.Player;
+import definitions.actors.testMap;
 import definitions.screen_utils.GameMenuButtons;
 import definitions.screen_utils.UITest;
 
@@ -53,6 +54,10 @@ public class GameScreen implements Screen {
 	private OrthogonalTiledMapRenderer mapRenderer;
 	private TiledMapTileLayer mapGroundLayer;
 	
+	TiledMap map;
+	OrthogonalTiledMapRenderer mapRenderer;
+	TiledMapTileLayer mapGroundLayer;
+	
 	public GameScreen(AdTimeGame game) {
 		this.game = game;
 		batch = new SpriteBatch();
@@ -67,6 +72,8 @@ public class GameScreen implements Screen {
 
 	}
 	
+	
+	
 	@Override
 	public void show() {
 		loadAssets();
@@ -75,7 +82,7 @@ public class GameScreen implements Screen {
 		menuScreenCalled = false;
 		dialogScreenCalled = false;
 		viewport.apply();
-		camera.setToOrtho(false, 16*16, 9*16);
+		camera.setToOrtho(false, 16*32, 9*32);
 		
 		Gdx.input.setInputProcessor(menuStage);
 		player = new Player(playerName, manager.get(Assets.playerSprite));
@@ -85,8 +92,9 @@ public class GameScreen implements Screen {
 		uiStage.addActor(new UITest(camera));		//TODO parameter texture
 		
 		menuStage.addActor(new GameMenuButtons("resume", camera, manager.get(Assets.startTexture), game, this));
-		
-		backSprite.setBounds(0, 0, manager.get(Assets.testBackground).getWidth(), manager.get(Assets.testBackground).getHeight());
+
+		//backSprite.setBounds(0, 0, manager.get(Assets.testBackground).getWidth(), manager.get(Assets.testBackground).getHeight());
+
 	}
 
 	@Override
@@ -101,6 +109,7 @@ public class GameScreen implements Screen {
 			
 			mapRenderer.render();
 			mapRenderer.setView(camera);
+
 			batch.begin();
 			//backSprite.draw(batch);
 			batch.end();
@@ -161,12 +170,23 @@ public class GameScreen implements Screen {
 		manager.load(Assets.playerSprite);
 		manager.load(Assets.testGif);			//Test
 		manager.load(Assets.startTexture);
-		manager.load(Assets.testBackground);
+					//
+					//
 		manager.finishLoading();;
 		
 		test = manager.get(Assets.testGif);		//test
-		backSprite = new Sprite(manager.get(Assets.testBackground));
-
+					///backSprite = new Sprite(manager.get(Assets.testBackground));
+	}
+	
+	public void loadMap(AssetDescriptor<TiledMap> mapName) {
+		manager.setLoader(TiledMap.class, new TmxMapLoader(new InternalFileHandleResolver()));
+		manager.load(mapName);
+		manager.finishLoading();
+		
+		map = manager.get(mapName);
+		mapRenderer = new OrthogonalTiledMapRenderer(map, 1);
+		mapRenderer.setView(camera);
+		mapGroundLayer = (TiledMapTileLayer) map.getLayers().get(0);
 	}
 	
 	/** Loading map/s */

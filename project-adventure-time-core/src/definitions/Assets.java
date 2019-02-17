@@ -20,7 +20,7 @@ public class Assets {
 	//public static final String testGIF = ;
 	  public static final AssetDescriptor<Texture> testGif = new AssetDescriptor<Texture>("transtest.gif", Texture.class);
 	  public static final AssetDescriptor<Texture> startTexture = new AssetDescriptor<Texture>("title/startButton.png", Texture.class);
-	  public static final AssetDescriptor<Texture> testUI = new AssetDescriptor<Texture>("nobu1.png", Texture.class);
+	  public static final AssetDescriptor<Texture> testUI = new AssetDescriptor<Texture>("SpriteJep.png", Texture.class);
 	  public static final AssetDescriptor<Texture> testBackground = new AssetDescriptor<Texture>("background/test1.jpg", Texture.class);
 	  
 	  public static final AssetDescriptor<Texture> playerSprite = new AssetDescriptor<Texture>("SpriteJEP.png", Texture.class);
