@@ -1,4 +1,5 @@
 /**
+
  * WARNING: @camera has its (0,0) coordinates at the center of the screen.
  */
 package com.umu_jep.atime;
@@ -54,6 +55,7 @@ public class GameScreen implements Screen {
 	private OrthogonalTiledMapRenderer mapRenderer;
 	//private TiledMapTileLayer mapGroundLayer;
 	
+	
 	public GameScreen(AdTimeGame game) {
 		this.game = game;
 		batch = new SpriteBatch();
@@ -66,6 +68,8 @@ public class GameScreen implements Screen {
 		menuStage = new Stage(viewport, uiStage.getBatch());
 		dialogStage = new Stage(viewport, uiStage.getBatch());
 
+		
+		
 	}
 	
 	@Override
@@ -87,7 +91,7 @@ public class GameScreen implements Screen {
 		
 		menuStage.addActor(new GameMenuButtons("resume", camera, manager.get(Assets.startTexture), game, this));
 		
-		backSprite.setBounds(0, 0, manager.get(Assets.testBackground).getWidth(), manager.get(Assets.testBackground).getHeight());
+		//backSprite.setBounds(0, 0, manager.get(Assets.testBackground).getWidth(), manager.get(Assets.testBackground).getHeight());
 	}
 
 	@Override
@@ -103,7 +107,6 @@ public class GameScreen implements Screen {
 			mapRenderer.render();
 			mapRenderer.setView(camera);
 			batch.begin();
-			//backSprite.draw(batch);
 			batch.end();
 			
 			gameStage.draw();
@@ -160,13 +163,12 @@ public class GameScreen implements Screen {
 	/** Loading assets */
 	private void loadAssets() {
 		manager.load(Assets.playerSprite);
-		manager.load(Assets.testGif);			//Test
+		manager.load(Assets.JasTitlescreen);			//Test
 		manager.load(Assets.startTexture);
-		manager.load(Assets.testBackground);
 		manager.finishLoading();;
 		
-		test = manager.get(Assets.testGif);		//test
-		backSprite = new Sprite(manager.get(Assets.testBackground));
+		test = manager.get(Assets.JasTitlescreen);		//test
+		//manager.load(Assets.jasAnimation);	
 
 	}
 	
@@ -178,7 +180,6 @@ public class GameScreen implements Screen {
 		
 		map = manager.get(mapName);
 		mapRenderer = new OrthogonalTiledMapRenderer(map, 1);
-		//mapGroundLayer = (TiledMapTileLayer) map.getLayers().get(0);
 	}
 	
 	/** ESC button, in-game menu */
@@ -236,6 +237,10 @@ public class GameScreen implements Screen {
 				if(player.getY()+player.getHeight()/2 == camera.position.y && 0 <= camera.position.y - camera.viewportHeight/2 - 1) camera.translate(0,-1*SPEED);	
 				player.moveBy(0, -1*SPEED);
 			}
+			
+			
+			
+			
 		}
 	}
 

@@ -30,7 +30,8 @@ public class TitelScreen implements Screen {
 	
 	//private Rectangle startButton, optionButton, exitButton, creditButton;
 	
-	private Texture testGIF;
+	private Texture JasTitlescreen;
+	private Texture JasAdventure;
 	//private BitmapFont font;
 	private Texture startTexture;
 	private Stage checkInput;
@@ -71,7 +72,8 @@ public class TitelScreen implements Screen {
 		batch.setProjectionMatrix(camera.combined);		//Sync with orthographic camera
 				
 		batch.begin();
-		batch.draw(testGIF, 0, 0);
+		batch.draw(JasTitlescreen, 750, 0);
+		batch.draw(JasAdventure, 50, 0);
 		//font.draw(batch, "Start", 1280/2, 720/2);
 		//batch.draw(startTexture, startButton.x, startButton.y);
 		batch.end();
@@ -120,12 +122,13 @@ public class TitelScreen implements Screen {
 	
 	/**Load assets from Assets.class*/
 	private void loadAssets() {
-		manager.load(Assets.testGif);
+		manager.load(Assets.JasAdventure);
+		manager.load(Assets.JasTitlescreen);
 		manager.load(Assets.startTexture);
 		
 		manager.finishLoading();
-
-		testGIF = manager.get(Assets.testGif);
+		JasAdventure = manager.get(Assets.JasAdventure);
+		JasTitlescreen = manager.get(Assets.JasTitlescreen);
 		startTexture = manager.get(Assets.startTexture);
 
 	}
