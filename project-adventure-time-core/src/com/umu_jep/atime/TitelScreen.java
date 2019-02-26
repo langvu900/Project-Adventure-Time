@@ -34,6 +34,8 @@ public class TitelScreen implements Screen {
 	//private BitmapFont font;
 	private Texture startTexture;
 	private Stage checkInput;
+	private Texture JasAdventure;
+	private Texture JasTitlescreen;
 	
 	public TitelScreen(AdTimeGame game) {
 		this.game = game;
@@ -74,6 +76,8 @@ public class TitelScreen implements Screen {
 		batch.draw(testGIF, 0, 0);
 		//font.draw(batch, "Start", 1280/2, 720/2);
 		//batch.draw(startTexture, startButton.x, startButton.y);
+		batch.draw(JasTitlescreen, 750, 0);
+		batch.draw(JasAdventure, 50, 0);
 		batch.end();
 		checkInput.draw();
 		checkInput.act();
@@ -122,11 +126,15 @@ public class TitelScreen implements Screen {
 	private void loadAssets() {
 		manager.load(Assets.testGif);
 		manager.load(Assets.startTexture);
+		manager.load(Assets.JasAdventure);
+		manager.load(Assets.JasTitlescreen);
 		
 		manager.finishLoading();
 
 		testGIF = manager.get(Assets.testGif);
 		startTexture = manager.get(Assets.startTexture);
+		JasAdventure = manager.get(Assets.JasAdventure);
+		JasTitlescreen = manager.get(Assets.JasTitlescreen);
 
 	}
 	

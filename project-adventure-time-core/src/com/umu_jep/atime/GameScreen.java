@@ -14,18 +14,25 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.maps.MapLayer;
+import com.badlogic.gdx.maps.MapObject;
+import com.badlogic.gdx.maps.MapObjects;
 import com.badlogic.gdx.maps.MapProperties;
+import com.badlogic.gdx.maps.objects.RectangleMapObject;
 import com.badlogic.gdx.maps.tiled.*;
 /*import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;*/
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
+import com.badlogic.gdx.math.Intersector;
+import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.viewport.ExtendViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 
 import definitions.Assets;
+import definitions.Collider;
 import definitions.actors.Player;
 import definitions.screen_utils.GameMenuButtons;
 import definitions.screen_utils.UITest;
@@ -34,9 +41,9 @@ public class GameScreen implements Screen {
 
 	AdTimeGame game;
 	private SpriteBatch batch;
-	private AssetManager manager;
-	private OrthographicCamera camera;
-	private Viewport viewport;
+	public AssetManager manager;
+	public static OrthographicCamera camera;
+	public Viewport viewport;
 	private Stage uiStage, gameStage, menuStage, dialogStage;		//different screens (stages) for in-game display (might decrease in amount)
 
 	public boolean gameIsPaused, dialogScreenCalled, menuScreenCalled;
@@ -48,11 +55,15 @@ public class GameScreen implements Screen {
 	private Texture test, backTest;
 	private Sprite backSprite;
 	
-	private float SPEED = 2, playerX = 1, playerY = 1;
+	public float SPEED = 2;
+	private float playerX = 1, playerY = 1;
 	
 	private TiledMap map;
 	private OrthogonalTiledMapRenderer mapRenderer;
-	//private TiledMapTileLayer mapGroundLayer;
+	private MapLayer collisionLayer;
+	public static MapProperties prop;
+	public static MapObjects mapCollision;
+
 	
 	public GameScreen(AdTimeGame game) {
 		this.game = game;
@@ -72,6 +83,8 @@ public class GameScreen implements Screen {
 	public void show() {
 		loadAssets();
 		loadMap(Assets.testMap);
+		mapCollision = collisionLayer.getObjects();
+		
 		gameIsPaused = false;
 		menuScreenCalled = false;
 		dialogScreenCalled = false;
@@ -88,12 +101,12 @@ public class GameScreen implements Screen {
 		menuStage.addActor(new GameMenuButtons("resume", camera, manager.get(Assets.startTexture), game, this));
 		
 		backSprite.setBounds(0, 0, manager.get(Assets.testBackground).getWidth(), manager.get(Assets.testBackground).getHeight());
+		
+		System.out.print(mapCollision.getByType(RectangleMapObject.class).get(0).getRectangle());
 	}
 
 	@Override
-	public void render(float delta) {
-		camera.update();
-		
+	public void render(float delta) {		
 		if(!gameIsPaused) {			//check if any screen other than the game screen is active
 			Gdx.gl.glClearColor(1, 1, 1, 0.5f);
 			Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
@@ -106,9 +119,8 @@ public class GameScreen implements Screen {
 			//backSprite.draw(batch);
 			batch.end();
 			
-			gameStage.draw();
-			
 			checkMovement();
+			gameStage.draw();
 
 			uiStage.draw();			//always after gameStage.draw()
 
@@ -116,6 +128,7 @@ public class GameScreen implements Screen {
 		
 		menu();			//check if menu screen is called
 		dialog();		//check if dialog screen is called
+		camera.update();
 
 	}
 
@@ -151,6 +164,7 @@ public class GameScreen implements Screen {
 		gameStage.dispose();
 		menuStage.dispose();
 		dialogStage.dispose();
+		mapRenderer.dispose();
 	}
 	
 	/**
@@ -178,7 +192,8 @@ public class GameScreen implements Screen {
 		
 		map = manager.get(mapName);
 		mapRenderer = new OrthogonalTiledMapRenderer(map, 1);
-		//mapGroundLayer = (TiledMapTileLayer) map.getLayers().get(0);
+		collisionLayer = (MapLayer) map.getLayers().get("natural_collision");
+		prop = map.getProperties();
 	}
 	
 	/** ESC button, in-game menu */
@@ -209,34 +224,78 @@ public class GameScreen implements Screen {
 	}
 	
 	private void checkMovement() {
-		MapProperties prop = map.getProperties();
+		//System.out.println(player.getRectangle());
 		float mapWidth = prop.get("width", Integer.class) * prop.get("tilewidth", Integer.class);
 		float mapHeight = prop.get("height", Integer.class) * prop.get("tileheight", Integer.class);
+		boolean moveable = true;
 		
+		// Move right
 		if(Gdx.input.isKeyPressed(Input.Keys.D)) {
-			if(player.getRight() <= mapWidth) {
+			//Collision check
+			for(RectangleMapObject rectangleObject : mapCollision.getByType(RectangleMapObject.class)) {
+				if(rectangleObject.getRectangle().overlaps(new Rectangle(player.getX()+1, player.getY(), player.getWidth(), 10))) {
+					moveable = false;
+					break;
+				}else moveable = true;
+			}
+			
+			if(player.getRight() <= mapWidth && moveable) {
 				if(player.getX()+player.getWidth()/2 == camera.position.x && mapWidth >= camera.position.x + camera.viewportWidth/2 + 1) camera.translate(1*SPEED,0);
 				player.moveBy(1*SPEED, 0);
 			}
+			player.setDirection("EAST");;
 		}
+		
+		//Move left
 		if(Gdx.input.isKeyPressed(Input.Keys.A)) {
-			if(player.getX() >= 0) {
+			//Collision check
+			for(RectangleMapObject rectangleObject : mapCollision.getByType(RectangleMapObject.class)) {
+				if(rectangleObject.getRectangle().overlaps(new Rectangle(player.getX()-1, player.getY(), player.getWidth(), 10))) {
+					moveable = false;
+					break;
+				} else moveable = true;
+			}
+			
+			if(player.getX() >= 0 && moveable) {
 				if(player.getX()+player.getWidth()/2 == camera.position.x && 0 <= camera.position.x - camera.viewportWidth/2 - 1) camera.translate(-1*SPEED,0);
 				player.moveBy(-1*SPEED, 0);
 			}
+			player.setDirection("WEST");
 		}
+		
+		//Move up
 		if(Gdx.input.isKeyPressed(Input.Keys.W)) {
-			if(player.getTop() <= mapHeight) {
+			//Collision check
+			for(RectangleMapObject rectangleObject : mapCollision.getByType(RectangleMapObject.class)) {
+				if(rectangleObject.getRectangle().overlaps(new Rectangle(player.getX(), player.getY()+1, player.getWidth()-1, 11))) {
+					moveable = false;
+					break;
+				} else moveable = true;
+			}
+			
+			if(player.getTop() <= mapHeight && moveable) {
 				if(player.getY()+player.getHeight()/2 == camera.position.y && mapHeight >= camera.position.y + camera.viewportHeight/2 + 1) camera.translate(0,1*SPEED);
 				player.moveBy(0, 1*SPEED);
 			}
+			player.setDirection("NORTH");
 		}
+		
+		//Move down
 		if(Gdx.input.isKeyPressed(Input.Keys.S)) {
-			if(player.getY() >= 0) {
+			//Collision check
+			for(RectangleMapObject rectangleObject : mapCollision.getByType(RectangleMapObject.class)) {
+				if(rectangleObject.getRectangle().overlaps(new Rectangle(player.getX(), player.getY()-1, player.getWidth()-1, 10))) {
+					moveable = false;
+					break;
+				} else moveable = true;
+			}
+			
+			if(player.getY() >= 0 && moveable) {
 				if(player.getY()+player.getHeight()/2 == camera.position.y && 0 <= camera.position.y - camera.viewportHeight/2 - 1) camera.translate(0,-1*SPEED);	
 				player.moveBy(0, -1*SPEED);
 			}
+			player.setDirection("SOUTH");
 		}
 	}
-
+	
 }
