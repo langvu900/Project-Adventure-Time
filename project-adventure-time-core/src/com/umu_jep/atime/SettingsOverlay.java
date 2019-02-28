@@ -17,6 +17,7 @@ public class SettingsOverlay{
 		Gdx.input.setInputProcessor(settingsStage);
 		
 		Checkbox windowMode  = new Checkbox("Fullscreen");
+		windowMode.setVisible(true);
 		//settingsStage.addActor(windowMode);
 	}
 	

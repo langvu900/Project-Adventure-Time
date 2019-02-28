@@ -11,16 +11,16 @@ public class Player extends Actor{
 	private Texture sprite;
 	
 	public Player(String name, Texture sprite, float x, float y) {
+		
 		this.setName(name);
 		this.setX(x);
 		this.setY(y);
 		this.sprite = sprite;
-		
 	}
 	
 	@Override
 	public void draw(Batch batch, float parentAlpha) {
+		
 		batch.draw(sprite, this.getX(), this.getY());
 	}
-
 }
