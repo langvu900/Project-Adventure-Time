@@ -1,6 +1,7 @@
-package definitions.actors;
+package ai;
 
 import com.umu_jep.atime.GameScreen;
+import definitions.actors.BaseNPC;
 
 public abstract class Routine {
  
