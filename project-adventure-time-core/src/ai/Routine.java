@@ -18,6 +18,7 @@ public abstract class Routine {
  
     public void start() {
     	
+    	System.out.println(">>> STARTING Routine " + this.getClass().getSimpleName());
         this.state = RoutineState.Running;
     }
  
@@ -27,11 +28,13 @@ public abstract class Routine {
  
     protected void succeed() {
     	
+    	System.out.println(">>> Routine " + this.getClass().getSimpleName() + " SUCCEEDED");
         this.state = RoutineState.Success;
     }
  
     protected void fail() {
     	
+    	System.out.println(">>> Routine " + this.getClass().getSimpleName() + " FAILED");
         this.state = RoutineState.Failure;
     }
  
