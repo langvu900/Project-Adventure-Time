@@ -18,6 +18,7 @@ import com.badlogic.gdx.maps.MapLayer;
 import com.badlogic.gdx.maps.MapObject;
 import com.badlogic.gdx.maps.MapObjects;
 import com.badlogic.gdx.maps.MapProperties;
+import com.badlogic.gdx.maps.objects.PolygonMapObject;
 import com.badlogic.gdx.maps.objects.RectangleMapObject;
 import com.badlogic.gdx.maps.tiled.*;
 /*import com.badlogic.gdx.maps.tiled.TiledMap;
@@ -32,7 +33,7 @@ import com.badlogic.gdx.utils.viewport.ExtendViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 
 import definitions.Assets;
-import definitions.Collider;
+//import definitions.Collider;
 import definitions.actors.Player;
 import definitions.screen_utils.GameMenuButtons;
 import definitions.screen_utils.UITest;
@@ -102,7 +103,7 @@ public class GameScreen implements Screen {
 		
 		backSprite.setBounds(0, 0, manager.get(Assets.testBackground).getWidth(), manager.get(Assets.testBackground).getHeight());
 		
-		System.out.print(mapCollision.getByType(RectangleMapObject.class).get(0).getRectangle());
+		//System.out.print(mapCollision.getByType(PolygonMapObject.class).get(0).getPolygon());
 	}
 
 	@Override
