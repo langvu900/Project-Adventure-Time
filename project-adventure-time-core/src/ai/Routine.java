@@ -1,6 +1,6 @@
 package ai;
 
-import com.umu_jep.atime.GameScreen;
+import com.badlogic.gdx.scenes.scene2d.Stage;
 import definitions.actors.BaseNPC;
 
 public abstract class Routine {
@@ -23,7 +23,7 @@ public abstract class Routine {
  
     public abstract void reset();
  
-    public abstract void act(BaseNPC npc, GameScreen stage);
+    public abstract void act(BaseNPC npc, Stage stage);
  
     protected void succeed() {
     	
