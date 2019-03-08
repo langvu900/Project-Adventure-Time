@@ -86,5 +86,4 @@ public class Player extends Actor{
 	public void setDirection(String direction) {
 		if((direction == "NORTH" || direction == "SOUTH" || direction == "WEST" || direction == "EAST") && this.direction != direction) this.direction = direction;
 	}
-	
 }

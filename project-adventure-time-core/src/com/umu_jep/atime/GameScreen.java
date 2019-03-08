@@ -15,7 +15,6 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.maps.MapLayer;
-import com.badlogic.gdx.maps.MapObject;
 import com.badlogic.gdx.maps.MapObjects;
 import com.badlogic.gdx.maps.MapProperties;
 import com.badlogic.gdx.maps.objects.RectangleMapObject;
@@ -24,15 +23,13 @@ import com.badlogic.gdx.maps.tiled.*;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;*/
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
-import com.badlogic.gdx.math.Intersector;
 import com.badlogic.gdx.math.Rectangle;
-import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.viewport.ExtendViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 
 import definitions.Assets;
-import definitions.Collider;
+import definitions.actors.BaseNPC;
 import definitions.actors.Player;
 import definitions.screen_utils.GameMenuButtons;
 import definitions.screen_utils.UITest;
@@ -47,12 +44,10 @@ public class GameScreen implements Screen {
 	private Stage uiStage, gameStage, menuStage, dialogStage;		//different screens (stages) for in-game display (might decrease in amount)
 
 	public boolean gameIsPaused, dialogScreenCalled, menuScreenCalled;
-	private String dialogText, dialogName;		//not used yet
-	
 	private Player player;
 	private final String playerName = "Jep";
 	
-	private Texture test, backTest;
+	private Texture test;
 	private Sprite backSprite;
 	
 	public float SPEED = 2;
@@ -95,6 +90,11 @@ public class GameScreen implements Screen {
 		player = new Player(playerName, manager.get(Assets.playerSprite));
 		player.setPosition(playerX, playerY);
 		gameStage.addActor(player);
+		
+		//New NPC
+		BaseNPC npc = new BaseNPC(10, 4, 12, player);
+		npc.setPosition(12, 12);
+		npc.wander();
 		
 		uiStage.addActor(new UITest(camera));		//TODO parameter texture
 		
