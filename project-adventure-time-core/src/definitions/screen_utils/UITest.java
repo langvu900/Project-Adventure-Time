@@ -13,7 +13,7 @@ public class UITest extends Actor{
 	OrthographicCamera camera;
 
 	public UITest(OrthographicCamera camera) {		//TODO parameter texture
-		startButton = new Texture(Gdx.files.internal("nobu1.png"));
+		//startButton = new Texture(Gdx.files.internal("nobu1.png"));
 		
 		this.camera = camera;
 		//this.setX(position.x);

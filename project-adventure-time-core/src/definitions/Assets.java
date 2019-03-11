@@ -22,17 +22,17 @@ public class Assets {
 	  public static final AssetDescriptor<Texture> JasAdventure = new AssetDescriptor<Texture>("title/Jas Adventure.png", Texture.class);
 	  public static final AssetDescriptor<Texture> JasTitlescreen = new AssetDescriptor<Texture>("title/JasTransparent.png", Texture.class);
 	  public static final AssetDescriptor<Texture> testGif = new AssetDescriptor<Texture>("transtest.gif", Texture.class);
-	  public static final AssetDescriptor<Texture> startTexture = new AssetDescriptor<Texture>("title/startButton.png", Texture.class);
+	  public static final AssetDescriptor<Texture> startTexture = new AssetDescriptor<Texture>("title/Start.png", Texture.class);
 	  
 	/** UI */
-	  public static final AssetDescriptor<Texture> testUI = new AssetDescriptor<Texture>("nobu1.png", Texture.class);
+	  //public static final AssetDescriptor<Texture> testUI = new AssetDescriptor<Texture>("nobu1.png", Texture.class);
 	  public static final AssetDescriptor<Texture> testBackground = new AssetDescriptor<Texture>("background/test1.jpg", Texture.class);
 	  
 	/** Sprites */
 	  public static final AssetDescriptor<Texture> playerSprite = new AssetDescriptor<Texture>("SpriteJEP.png", Texture.class);
 	  
 	/** Maps */
-	  public static final AssetDescriptor<TiledMap> testMap = new AssetDescriptor<TiledMap>("maps/tes.tmx", TiledMap.class);
+	  public static final AssetDescriptor<TiledMap> testMap = new AssetDescriptor<TiledMap>("maps/TutorialMap2.tmx", TiledMap.class);
 
 	
 	/** Loads all objects below 

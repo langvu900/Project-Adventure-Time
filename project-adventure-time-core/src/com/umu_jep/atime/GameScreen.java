@@ -9,6 +9,8 @@ import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.assets.AssetDescriptor;
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.assets.loaders.resolvers.InternalFileHandleResolver;
+import com.badlogic.gdx.audio.Music;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
@@ -18,6 +20,7 @@ import com.badlogic.gdx.maps.MapLayer;
 import com.badlogic.gdx.maps.MapObject;
 import com.badlogic.gdx.maps.MapObjects;
 import com.badlogic.gdx.maps.MapProperties;
+import com.badlogic.gdx.maps.objects.PolygonMapObject;
 import com.badlogic.gdx.maps.objects.RectangleMapObject;
 import com.badlogic.gdx.maps.tiled.*;
 /*import com.badlogic.gdx.maps.tiled.TiledMap;
@@ -32,7 +35,7 @@ import com.badlogic.gdx.utils.viewport.ExtendViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 
 import definitions.Assets;
-import definitions.Collider;
+//import definitions.Collider;
 import definitions.actors.Player;
 import definitions.screen_utils.GameMenuButtons;
 import definitions.screen_utils.UITest;
@@ -64,8 +67,16 @@ public class GameScreen implements Screen {
 	public static MapProperties prop;
 	public static MapObjects mapCollision;
 
+	private Music music;
 	
 	public GameScreen(AdTimeGame game) {
+		
+		TitelScreen.tmusic.stop();
+		music = Gdx.audio.newMusic(Gdx.files.internal("sounds/gamemusic.mp3"));
+		music.setLooping(true);
+		music.setVolume(0.2f);
+		music.play();
+		
 		this.game = game;
 		batch = new SpriteBatch();
 		manager = new AssetManager();
@@ -96,13 +107,13 @@ public class GameScreen implements Screen {
 		player.setPosition(playerX, playerY);
 		gameStage.addActor(player);
 		
-		uiStage.addActor(new UITest(camera));		//TODO parameter texture
+		//uiStage.addActor(new UITest(camera));		//TODO parameter texture
 		
 		menuStage.addActor(new GameMenuButtons("resume", camera, manager.get(Assets.startTexture), game, this));
 		
 		backSprite.setBounds(0, 0, manager.get(Assets.testBackground).getWidth(), manager.get(Assets.testBackground).getHeight());
 		
-		System.out.print(mapCollision.getByType(RectangleMapObject.class).get(0).getRectangle());
+		//System.out.print(mapCollision.getByType(PolygonMapObject.class).get(0).getPolygon());
 	}
 
 	@Override
@@ -122,7 +133,7 @@ public class GameScreen implements Screen {
 			checkMovement();
 			gameStage.draw();
 
-			uiStage.draw();			//always after gameStage.draw()
+			//uiStage.draw();			//always after gameStage.draw()
 
 		}
 		
@@ -160,11 +171,12 @@ public class GameScreen implements Screen {
 	public void dispose() {
 		batch.dispose();
 		manager.dispose();
-		uiStage.dispose();
+		//uiStage.dispose();
 		gameStage.dispose();
 		menuStage.dispose();
 		dialogStage.dispose();
 		mapRenderer.dispose();
+		music.dispose();
 	}
 	
 	/**

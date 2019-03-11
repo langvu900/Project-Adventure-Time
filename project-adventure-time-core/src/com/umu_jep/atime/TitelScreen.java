@@ -6,6 +6,7 @@ package com.umu_jep.atime;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.assets.AssetManager;
+import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
@@ -30,14 +31,19 @@ public class TitelScreen implements Screen {
 	
 	//private Rectangle startButton, optionButton, exitButton, creditButton;
 	
-	private Texture testGIF;
+	//private Texture testGIF;
 	//private BitmapFont font;
 	private Texture startTexture;
 	private Stage checkInput;
 	private Texture JasAdventure;
 	private Texture JasTitlescreen;
+	public static Music tmusic;
 	
 	public TitelScreen(AdTimeGame game) {
+		tmusic = Gdx.audio.newMusic(Gdx.files.internal("sounds/titlemusic.mp3"));
+		tmusic.setLooping(true);
+		tmusic.setVolume(0.2f);
+		tmusic.play();
 		this.game = game;
 		
 		//In-window coordinates
@@ -60,7 +66,8 @@ public class TitelScreen implements Screen {
 		//startButton = new Rectangle(640, 360, 60, 40);
 
 		Gdx.input.setInputProcessor(checkInput);
-		checkInput.addActor(new TitleButton("start", 1280/2, 720/2, startTexture, game, this));
+		//checkInput.addActor(new TitleButton("start", 1280/2, 720/2, startTexture, game, this));
+		checkInput.addActor(new TitleButton("start", 200, 400, startTexture, game, this));
 	}
 
 	@Override
@@ -73,7 +80,7 @@ public class TitelScreen implements Screen {
 		batch.setProjectionMatrix(camera.combined);		//Sync with orthographic camera
 				
 		batch.begin();
-		batch.draw(testGIF, 0, 0);
+		//batch.draw(testGIF, 0, 0);
 		//font.draw(batch, "Start", 1280/2, 720/2);
 		//batch.draw(startTexture, startButton.x, startButton.y);
 		batch.draw(JasTitlescreen, 750, 0);
@@ -116,6 +123,7 @@ public class TitelScreen implements Screen {
 		manager.dispose();
 		//font.dispose();
 		checkInput.dispose();
+		tmusic.dispose();
 	}
 
 	/**
@@ -131,7 +139,7 @@ public class TitelScreen implements Screen {
 		
 		manager.finishLoading();
 
-		testGIF = manager.get(Assets.testGif);
+	//	testGIF = manager.get(Assets.testGif);
 		startTexture = manager.get(Assets.startTexture);
 		JasAdventure = manager.get(Assets.JasAdventure);
 		JasTitlescreen = manager.get(Assets.JasTitlescreen);
