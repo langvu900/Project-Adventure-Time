@@ -91,9 +91,9 @@ public class GameScreen implements Screen {
 		player.setPosition(playerX, playerY);
 		gameStage.addActor(player);
 		
-		//New NPC
-		BaseNPC npc = new BaseNPC(10, 4, 12, player);
-		npc.setPosition(12, 12);
+		////NPC////////NPC////NPC////NPC////NPC////NPC////NPC////NPC////NPC////NPC////NPC////NPC////NPC////NPC////NPC////NPC////
+		BaseNPC npc = new BaseNPC(40, 20, 10, 10, 20, 1, 3,"flee", player);
+		gameStage.addActor(npc);
 		npc.wander();
 		
 		uiStage.addActor(new UITest(camera));		//TODO parameter texture

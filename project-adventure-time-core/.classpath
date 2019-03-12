@@ -6,7 +6,7 @@
 			<attribute name="gradle_used_by_scope" value="main,test"/>
 		</attributes>
 	</classpathentry>
-	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.6/"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.7"/>
 	<classpathentry excluding="assets/|src/" kind="src" path=""/>
 	<classpathentry kind="lib" path="/Users/Wisp/git/Project-Adventure-Time/LibGDX/com.badlogicgames.gdx/gdx-tools/1.9.8/5c32820fccee957cc77990d353297ceed1a63159/gdx-tools-1.9.8.jar" sourcepath="C:/Users/phana/.gradle/caches/modules-2/files-2.1/com.badlogicgames.gdx/gdx-tools/1.9.8/6c7486ec4bf38d3a632455638356f6e85c97f437/gdx-tools-1.9.8-sources.jar">
 		<attributes>
