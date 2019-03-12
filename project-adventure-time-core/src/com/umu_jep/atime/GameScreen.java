@@ -46,6 +46,8 @@ public class GameScreen implements Screen {
 	public boolean gameIsPaused, dialogScreenCalled, menuScreenCalled;
 	private Player player;
 	private final String playerName = "Jep";
+
+	BaseNPC npc;
 	
 	private Texture test;
 	private Sprite backSprite;
@@ -91,10 +93,8 @@ public class GameScreen implements Screen {
 		player.setPosition(playerX, playerY);
 		gameStage.addActor(player);
 		
-		////NPC////////NPC////NPC////NPC////NPC////NPC////NPC////NPC////NPC////NPC////NPC////NPC////NPC////NPC////NPC////NPC////
-		BaseNPC npc = new BaseNPC(40, 20, 10, 10, 20, 1, 3,"neutral", player);
+		npc = new BaseNPC(40, 20, 10, 10, 5, 1, 3,"neutral", player);
 		gameStage.addActor(npc);
-		npc.wander();
 		
 		uiStage.addActor(new UITest(camera));		//TODO parameter texture
 		
@@ -123,6 +123,8 @@ public class GameScreen implements Screen {
 			gameStage.draw();
 
 			uiStage.draw();			//always after gameStage.draw()
+			
+			npc.wander();
 
 		}
 		

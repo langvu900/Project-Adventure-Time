@@ -46,39 +46,35 @@ public class BaseNPC extends Actor {
 	}
 	
 	public void wander() {
-		
-		System.out.println(">>>Wandering around");
-		
-		while(!detectPlayer(sightRange, player)) {
 			
 			//Determines idle movement as a fraction of maximum speed
 			Random rng = new Random();
 			
-			float destX = rng.nextFloat() * speed;
-			float destY = rng.nextFloat() * speed;
-			boolean boolX = rng.nextBoolean();
-			boolean boolY = rng.nextBoolean();
-			
-			System.out.println(">>>Moving");
-			
-			//Determines direction of idle movement
-			if (boolX && boolY) {
+			if (detectPlayer(sightRange, player)) {
+				
+				this.takeAction(behaviour);
+			}else {
+				
+				float destX = rng.nextFloat() * speed;
+				float destY = rng.nextFloat() * speed;
+				boolean boolX = rng.nextBoolean();
+				boolean boolY = rng.nextBoolean();
+				
+				//Determines direction of idle movement
+				if (boolX && boolY) {
 
-				this.addAction(Actions.moveTo(this.getX() + destX, this.getY() + destY, speed));
-			}else if (boolX && !boolY) {
-				
-				this.addAction(Actions.moveTo(this.getX() + destX, this.getY() - destY, speed));
-			}else if(!boolX && boolY) {
-				
-				this.addAction(Actions.moveTo(this.getX() - destX, this.getY() + destY, speed));
-			}else if(!boolX && !boolY) {
-				
-				this.addAction(Actions.moveTo(this.getX() - destX, this.getY() - destY, speed));
+					this.addAction(Actions.moveTo(this.getX() + destX, this.getY() + destY, speed));
+				}else if (boolX && !boolY) {
+					
+					this.addAction(Actions.moveTo(this.getX() + destX, this.getY() - destY, speed));
+				}else if(!boolX && boolY) {
+					
+					this.addAction(Actions.moveTo(this.getX() - destX, this.getY() + destY, speed));
+				}else if(!boolX && !boolY) {
+					
+					this.addAction(Actions.moveTo(this.getX() - destX, this.getY() - destY, speed));
+				}
 			}
-			
-		}
-		
-		this.takeAction(behaviour);
 	}
 	
 	public void stationary() {
@@ -175,9 +171,6 @@ public class BaseNPC extends Actor {
 			if (enemyX >= this.getX()) {
 				
 				destination =+ speed;
-			}else if (enemyX == this.getX()) {
-				
-				pinnedDown();
 			}else {
 
 				destination =- speed;
@@ -187,9 +180,6 @@ public class BaseNPC extends Actor {
 			if (enemyY >= this.getY()) {
 				
 				destination =+ speed;
-			}else if (enemyY == this.getY()) {
-				
-				pinnedDown();
 			}else {
 
 				destination =- speed;
@@ -200,8 +190,6 @@ public class BaseNPC extends Actor {
 	
 	public void neutral() {
 		//Doesn't react on it's own, but reacts when attacked
-		
-		System.out.println(">>>Acting neutral");
 		
 		int startHP = hp;
 		
@@ -223,7 +211,6 @@ public class BaseNPC extends Actor {
 	public void follow() {
 		//Follow player while still keeping minimal distance
 		
-		System.out.println(">>>Following player");
 	}
 	
 	public void hit() {
@@ -234,14 +221,6 @@ public class BaseNPC extends Actor {
 	public void shoot() {
 		//Creates Projectile?
 		
-	}
-	
-	public void pinnedDown() {
-		//NPC is pinned down and escapes after a time depending on speed. Not invulnerable while pinned down.
-		//It's not a bug, it's a feature
-		
-		System.out.println(">>>Pinned down");
-		this.addAction(Actions.delay(20/speed));
 	}
 	
 	@Override
