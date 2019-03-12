@@ -45,15 +45,21 @@ public class BaseNPC extends Actor {
 		System.out.println("NPC created at X = " + this.getX() + ", Y = " + this.getY());
 	}
 	
+	public void patrol() {
+		
+		if (detectPlayer(sightRange, player)) {
+			
+			this.takeAction(behaviour);
+		}else {
+			
+			wander();
+		}
+	}
+	
 	public void wander() {
 			
 			//Determines idle movement as a fraction of maximum speed
 			Random rng = new Random();
-			
-			if (detectPlayer(sightRange, player)) {
-				
-				this.takeAction(behaviour);
-			}else {
 				
 				float destX = rng.nextFloat() * speed;
 				float destY = rng.nextFloat() * speed;
@@ -74,7 +80,8 @@ public class BaseNPC extends Actor {
 					
 					this.addAction(Actions.moveTo(this.getX() - destX, this.getY() - destY, speed));
 				}
-			}
+				
+				this.setPosition(this.getX(), this.getY());
 	}
 	
 	public void stationary() {
@@ -225,6 +232,6 @@ public class BaseNPC extends Actor {
 	
 	@Override
     public void draw(Batch batch, float parentAlpha) {
-    	batch.draw(sprite, posX, posY);
+    	batch.draw(sprite, this.getX(), this.getY());
 	}
 }

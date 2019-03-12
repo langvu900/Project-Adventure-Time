@@ -93,7 +93,7 @@ public class GameScreen implements Screen {
 		player.setPosition(playerX, playerY);
 		gameStage.addActor(player);
 		
-		npc = new BaseNPC(40, 20, 10, 10, 5, 1, 3,"neutral", player);
+		npc = new BaseNPC(20, 20, 10, 10, 1, 1, 3,"neutral", player);
 		gameStage.addActor(npc);
 		
 		uiStage.addActor(new UITest(camera));		//TODO parameter texture
@@ -119,12 +119,12 @@ public class GameScreen implements Screen {
 			//backSprite.draw(batch);
 			batch.end();
 			
+			npc.patrol();
+			
 			checkMovement();
 			gameStage.draw();
 
 			uiStage.draw();			//always after gameStage.draw()
-			
-			npc.wander();
 
 		}
 		
