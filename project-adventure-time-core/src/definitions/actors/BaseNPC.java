@@ -56,10 +56,26 @@ public class BaseNPC extends Actor {
 			
 			float destX = rng.nextFloat() * speed;
 			float destY = rng.nextFloat() * speed;
+			boolean boolX = rng.nextBoolean();
+			boolean boolY = rng.nextBoolean();
 			
-			System.out.println(">>>Moving to X = " + destX + ", Y = " + destY);
+			System.out.println(">>>Moving");
 			
-			this.addAction(Actions.moveTo(destX, destY, speed));
+			//Determines direction of idle movement
+			if (boolX && boolY) {
+
+				this.addAction(Actions.moveTo(this.getX() + destX, this.getY() + destY, speed));
+			}else if (boolX && !boolY) {
+				
+				this.addAction(Actions.moveTo(this.getX() + destX, this.getY() - destY, speed));
+			}else if(!boolX && boolY) {
+				
+				this.addAction(Actions.moveTo(this.getX() - destX, this.getY() + destY, speed));
+			}else if(!boolX && !boolY) {
+				
+				this.addAction(Actions.moveTo(this.getX() - destX, this.getY() - destY, speed));
+			}
+			
 		}
 		
 		this.takeAction(behaviour);
