@@ -9,11 +9,11 @@ import com.badlogic.gdx.scenes.scene2d.Actor;
 
 public class UITest extends Actor{
 	
-	Texture startButton;
+	Texture ui;
 	OrthographicCamera camera;
 
 	public UITest(OrthographicCamera camera) {		//TODO parameter texture
-		startButton = new Texture(Gdx.files.internal("nobu1.png"));
+		ui = new Texture(Gdx.files.internal("UI.png"));
 		
 		this.camera = camera;
 		//this.setX(position.x);
@@ -22,6 +22,6 @@ public class UITest extends Actor{
 
 	@Override
 	public void draw(Batch batch, float parentAlpha) {
-		batch.draw(startButton, camera.position.x - camera.viewportWidth/2 + 1, camera.position.y + camera.viewportHeight/2 - startButton.getHeight()/662*16*3, 16*3, 16*3, 0, 0, 662, 662, false, false);
+		batch.draw(ui, camera.position.x - camera.viewportWidth/2 + 1, camera.position.y + camera.viewportHeight/2 - ui.getHeight());
 	}
 }

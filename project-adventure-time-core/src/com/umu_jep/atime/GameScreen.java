@@ -9,6 +9,8 @@ import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.assets.AssetDescriptor;
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.assets.loaders.resolvers.InternalFileHandleResolver;
+import com.badlogic.gdx.audio.Music;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
@@ -18,6 +20,7 @@ import com.badlogic.gdx.maps.MapLayer;
 import com.badlogic.gdx.maps.MapObject;
 import com.badlogic.gdx.maps.MapObjects;
 import com.badlogic.gdx.maps.MapProperties;
+import com.badlogic.gdx.maps.objects.PolygonMapObject;
 import com.badlogic.gdx.maps.objects.RectangleMapObject;
 import com.badlogic.gdx.maps.tiled.*;
 /*import com.badlogic.gdx.maps.tiled.TiledMap;
@@ -32,7 +35,7 @@ import com.badlogic.gdx.utils.viewport.ExtendViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 
 import definitions.Assets;
-import definitions.Collider;
+//import definitions.Collider;
 import definitions.actors.Player;
 import definitions.screen_utils.GameMenuButtons;
 import definitions.screen_utils.UITest;
@@ -64,8 +67,16 @@ public class GameScreen implements Screen {
 	public static MapProperties prop;
 	public static MapObjects mapCollision;
 
+	private Music music;
 	
 	public GameScreen(AdTimeGame game) {
+		
+		TitelScreen.tmusic.stop();
+		music = Gdx.audio.newMusic(Gdx.files.internal("sounds/gamemusic.mp3"));
+		music.setLooping(true);
+		music.setVolume(0.2f);
+		music.play();
+		
 		this.game = game;
 		batch = new SpriteBatch();
 		manager = new AssetManager();
@@ -100,9 +111,9 @@ public class GameScreen implements Screen {
 		
 		menuStage.addActor(new GameMenuButtons("resume", camera, manager.get(Assets.startTexture), game, this));
 		
-		backSprite.setBounds(0, 0, manager.get(Assets.testBackground).getWidth(), manager.get(Assets.testBackground).getHeight());
+		//backSprite.setBounds(0, 0, manager.get(Assets.testBackground).getWidth(), manager.get(Assets.testBackground).getHeight());
 		
-		System.out.print(mapCollision.getByType(RectangleMapObject.class).get(0).getRectangle());
+		//System.out.print(mapCollision.getByType(PolygonMapObject.class).get(0).getPolygon());
 	}
 
 	@Override
@@ -165,6 +176,7 @@ public class GameScreen implements Screen {
 		menuStage.dispose();
 		dialogStage.dispose();
 		mapRenderer.dispose();
+		music.dispose();
 	}
 	
 	/**
@@ -174,13 +186,13 @@ public class GameScreen implements Screen {
 	/** Loading assets */
 	private void loadAssets() {
 		manager.load(Assets.playerSprite);
-		manager.load(Assets.testGif);			//Test
+		//manager.load(Assets.testGif);			//Test
 		manager.load(Assets.startTexture);
-		manager.load(Assets.testBackground);
+		//manager.load(Assets.testBackground);
 		manager.finishLoading();;
 		
-		test = manager.get(Assets.testGif);		//test
-		backSprite = new Sprite(manager.get(Assets.testBackground));
+		//test = manager.get(Assets.testGif);		//test
+		//backSprite = new Sprite(manager.get(Assets.testBackground));
 
 	}
 	
@@ -233,7 +245,7 @@ public class GameScreen implements Screen {
 		if(Gdx.input.isKeyPressed(Input.Keys.D)) {
 			//Collision check
 			for(RectangleMapObject rectangleObject : mapCollision.getByType(RectangleMapObject.class)) {
-				if(rectangleObject.getRectangle().overlaps(new Rectangle(player.getX()+1, player.getY(), player.getWidth(), 10))) {
+				if(rectangleObject.getRectangle().overlaps(new Rectangle(player.getX()+1, player.getY(), player.getWidth(), 8))) {
 					moveable = false;
 					break;
 				}else moveable = true;
@@ -250,7 +262,7 @@ public class GameScreen implements Screen {
 		if(Gdx.input.isKeyPressed(Input.Keys.A)) {
 			//Collision check
 			for(RectangleMapObject rectangleObject : mapCollision.getByType(RectangleMapObject.class)) {
-				if(rectangleObject.getRectangle().overlaps(new Rectangle(player.getX()-1, player.getY(), player.getWidth(), 10))) {
+				if(rectangleObject.getRectangle().overlaps(new Rectangle(player.getX()-1, player.getY(), player.getWidth(), 8))) {
 					moveable = false;
 					break;
 				} else moveable = true;
@@ -267,7 +279,7 @@ public class GameScreen implements Screen {
 		if(Gdx.input.isKeyPressed(Input.Keys.W)) {
 			//Collision check
 			for(RectangleMapObject rectangleObject : mapCollision.getByType(RectangleMapObject.class)) {
-				if(rectangleObject.getRectangle().overlaps(new Rectangle(player.getX(), player.getY()+1, player.getWidth()-1, 11))) {
+				if(rectangleObject.getRectangle().overlaps(new Rectangle(player.getX()+1, player.getY()+1, player.getWidth()-2, 9))) {
 					moveable = false;
 					break;
 				} else moveable = true;
@@ -284,7 +296,7 @@ public class GameScreen implements Screen {
 		if(Gdx.input.isKeyPressed(Input.Keys.S)) {
 			//Collision check
 			for(RectangleMapObject rectangleObject : mapCollision.getByType(RectangleMapObject.class)) {
-				if(rectangleObject.getRectangle().overlaps(new Rectangle(player.getX(), player.getY()-1, player.getWidth()-1, 10))) {
+				if(rectangleObject.getRectangle().overlaps(new Rectangle(player.getX()+1, player.getY()-2, player.getWidth()-2, 7))) {
 					moveable = false;
 					break;
 				} else moveable = true;
